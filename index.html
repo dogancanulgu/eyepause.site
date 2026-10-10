@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EyePause — macOS İçin Akıllı Göz ve Odaklanma Asistanı</title>
+  <meta name="description" content="20-20-20 kuralını iş akışınızı asla bölmeden uygulayın. Zoom toplantılarını, video izlemeyi ve yazı yazmayı algılayan akıllı mola yöneticisi.">
+  
+  <!-- SEO & Canonical -->
+  <link rel="canonical" href="https://eyepause.site/">
+  <meta name="author" content="EyePause Team">
+  <meta name="theme-color" content="#0B0C10">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://eyepause.site/">
+  <meta property="og:title" content="EyePause — macOS İçin Akıllı Göz ve Odaklanma Asistanı">
+  <meta property="og:description" content="20-20-20 kuralını iş akışınızı asla bölmeden uygulayın. Zoom toplantılarını, video izlemeyi ve yazı yazmayı algılayan akıllı mola yöneticisi.">
+  <meta property="og:site_name" content="EyePause">
+
+  <!-- Twitter Card -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://eyepause.site/">
+  <meta property="twitter:title" content="EyePause — macOS İçin Akıllı Göz ve Odaklanma Asistanı">
+  <meta property="twitter:description" content="20-20-20 kuralını iş akışınızı asla bölmeden uygulayın. Zoom toplantılarını, video izlemeyi ve yazı yazmayı algılayan akıllı mola yöneticisi.">
+
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "EyePause",
+    "operatingSystem": "macOS 13.0 or later",
+    "applicationCategory": "HealthAndFitnessApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Smart eye break assistant for macOS that respects meetings and flow.",
+    "url": "https://eyepause.site",
+    "author": {
+      "@type": "Organization",
+      "name": "EyePause",
+      "email": "info@eyepause.site",
+      "url": "https://eyepause.site"
+    }
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23FF6B4A'/><circle cx='50' cy='50' r='26' fill='none' stroke='white' stroke-width='6'/><rect x='43' y='38' width='4' height='24' rx='2' fill='white'/><rect x='53' y='38' width='4' height='24' rx='2' fill='white'/></svg>">
+</head>
+<body>
+  <!-- Ambient Gradient Background Lights -->
+  <div class="ambient-glow glow-1" aria-hidden="true"></div>
+  <div class="ambient-glow glow-2" aria-hidden="true"></div>
+  <div class="ambient-glow glow-3" aria-hidden="true"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="brand-logo" aria-label="EyePause Ana Sayfa">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="32" height="32" rx="9" fill="url(#logo-grad)"/>
+            <path d="M16 10C10.5 10 6 16 6 16C6 16 10.5 22 16 22C21.5 22 26 16 26 16C26 16 21.5 10 16 10Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="16" cy="16" r="3.5" fill="white"/>
+            <rect x="14.5" y="13.5" width="1" height="5" rx="0.5" fill="#FF5E3A"/>
+            <rect x="16.5" y="13.5" width="1" height="5" rx="0.5" fill="#FF5E3A"/>
+            <defs>
+              <linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FF7A50"/>
+                <stop offset="1" stop-color="#FF385C"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="brand-name">EyePause</span>
+        <span class="badge-mac">macOS</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Ana Gezinti">
+        <a href="#features" data-i18n="nav_features">Özellikler</a>
+        <a href="#science" data-i18n="nav_science">Göz Sağlığı</a>
+        <a href="#smart-pause" data-i18n="nav_smart_pause">Akıllı Duraklatma</a>
+        <a href="#calculator" data-i18n="nav_calculator">Yorgunluk Testi</a>
+        <a href="#faq" data-i18n="nav_faq">S.S.S.</a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Language Switcher Pill -->
+        <div class="lang-switcher" role="group" aria-label="Language selection">
+          <button type="button" class="lang-btn active" id="langBtnTR" onclick="setLanguage('tr')">TR</button>
+          <button type="button" class="lang-btn" id="langBtnEN" onclick="setLanguage('en')">EN</button>
+        </div>
+
+        <a href="#waitlist" class="btn btn-primary-pill">
+          <span data-i18n="nav_early_access">Erken Erişime Katıl</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="container hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span data-i18n="hero_badge">Yakında Mac App Store'da — Ön Kayıt Açık</span>
+        </div>
+
+        <h1 class="hero-title" data-i18n-html="hero_title">
+          Gözlerinizi dinlendirin.<br>
+          <span class="gradient-text">Odaklanmanızı koruyun.</span>
+        </h1>
+
+        <p class="hero-subtitle" data-i18n-html="hero_subtitle">
+          Ekran başında saatlerce kaybolduğunuzda gözlerinizin ve duruşunuzun en zarif koruyucusu. 
+          <strong>20-20-20 kuralını</strong>, toplantılarınızı ve yazı akışınızı asla bölmeden işleten yerel (native) macOS asistanı.
+        </p>
+
+        <!-- Waitlist Form (No Direct Download Yet) -->
+        <div class="hero-cta-group" id="waitlist">
+          <form class="waitlist-form" id="heroWaitlistForm" onsubmit="handleWaitlistSubmit(event, 'hero')">
+            <div class="input-wrapper">
+              <svg class="mail-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <input type="email" id="heroEmail" placeholder="E-posta adresinizi girin..." data-i18n-placeholder="hero_email_placeholder" required aria-label="E-posta adresi">
+            </div>
+            <button type="submit" class="btn btn-hero-submit">
+              <span data-i18n="hero_submit_btn">Erken Erişim Sırasına Gir</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+          <div class="form-feedback" id="heroFeedback" aria-live="polite"></div>
+          
+          <div class="hero-micro-notes">
+            <span class="micro-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <span data-i18n="hero_micro_1">Spam yok, yalnızca ilk lansman davetiyesi</span>
+            </span>
+            <span class="micro-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <span data-i18n="hero_micro_2">Apple Silicon (M1/M2/M3/M4) & Intel uyumlu</span>
+            </span>
+            <span class="micro-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <span data-i18n="hero_micro_3">%100 Yerel Swift & Sıfır Bulut Takibi</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Interactive Hero App Mockup -->
+        <div class="hero-mockup-wrapper">
+          <div class="mockup-mac-window">
+            <div class="window-traffic-lights" aria-hidden="true">
+              <span class="tl-dot red"></span>
+              <span class="tl-dot yellow"></span>
+              <span class="tl-dot green"></span>
+              <span class="window-title-bar" data-i18n="mockup_window_title">EyePause — Menü Çubuğu Deneyimi</span>
+            </div>
+
+            <div class="mockup-content">
+              <!-- Simulated macOS Menu Bar -->
+              <div class="simulated-menubar">
+                <div class="menubar-left">
+                  <span class="apple-logo"></span>
+                  <span class="menu-label active">EyePause</span>
+                  <span class="menu-label">File</span>
+                  <span class="menu-label">Edit</span>
+                  <span class="menu-label">View</span>
+                  <span class="menu-label">Window</span>
+                  <span class="menu-label">Help</span>
+                </div>
+                <div class="menubar-right">
+                  <span class="sys-icon">Wi-Fi</span>
+                  <span class="sys-icon">100%</span>
+                  <div class="eyepause-pill-interactive" id="menuPill" onclick="togglePopover()">
+                    <span class="pill-dot"></span>
+                    <span class="pill-icon">👁️</span>
+                    <span class="pill-timer" id="livePillTimer">18:42</span>
+                    <span class="pill-score">• 98</span>
+                  </div>
+                  <span class="sys-time">16:40</span>
+                </div>
+              </div>
+
+              <!-- Interactive Popover Card -->
+              <div class="hero-popover-card" id="heroPopover">
+                <div class="popover-header">
+                  <div class="popover-title-group">
+                    <span class="popover-brand">EyePause</span>
+                    <span class="popover-status" data-i18n="mockup_status">Çalışma Seansı Aktif</span>
+                  </div>
+                  <button type="button" class="btn-demo-trigger" onclick="triggerBreakDemo()" title="Molayı Şimdi Canlı Yaşa">
+                    <span data-i18n="mockup_btn_preview">✨ Molayı Canlandır</span>
+                  </button>
+                </div>
+
+                <div class="popover-main-gauge">
+                  <div class="gauge-ring">
+                    <svg viewBox="0 0 120 120" class="circular-chart">
+                      <circle class="circle-bg" cx="60" cy="60" r="52"></circle>
+                      <circle class="circle-progress" id="demoProgressCircle" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="65"></circle>
+                    </svg>
+                    <div class="gauge-inner-text">
+                      <span class="gauge-timer" id="demoTimer">18:42</span>
+                      <span class="gauge-label" data-i18n="mockup_next_break">Sonraki Mola</span>
+                    </div>
+                  </div>
+                  <div class="gauge-meta">
+                    <div class="meta-row">
+                      <span class="meta-label" data-i18n="mockup_break_type_label">Mola Türü:</span>
+                      <span class="meta-val highlight" data-i18n="mockup_break_type_val">Kısa Göz Molası (20s)</span>
+                    </div>
+                    <div class="meta-row">
+                      <span class="meta-label" data-i18n="mockup_score_label">Screen Score:</span>
+                      <span class="meta-val score-good">98 / 100 ★</span>
+                    </div>
+                    <div class="meta-row">
+                      <span class="meta-label" data-i18n="mockup_today_label">Bugünkü Molalar:</span>
+                      <span class="meta-val" data-i18n="mockup_today_val">14 Başarılı Mola</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="popover-actions-bar">
+                  <button type="button" class="pill-btn primary" onclick="triggerBreakDemo()" data-i18n="mockup_start_btn">Şimdi Mola Ver</button>
+                  <button type="button" class="pill-btn" onclick="snoozeDemo(1)">+1m</button>
+                  <button type="button" class="pill-btn" onclick="snoozeDemo(5)">+5m</button>
+                  <button type="button" class="pill-btn" onclick="snoozeDemo(15)">+15m</button>
+                </div>
+
+                <!-- Floating Cursor Countdown Preview -->
+                <div class="cursor-countdown-preview">
+                  <div class="cursor-mockup">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white" stroke="#111" stroke-width="1.5"><path d="M3 3l7.5 18 3.5-7.5 7.5-3.5L3 3z"/></svg>
+                    <div class="floating-pill-widget">
+                      <span class="pill-leaf">🍃</span>
+                      <span class="pill-text" data-i18n-html="mockup_cursor_pill">Mola başlıyor: <strong>05</strong></span>
+                    </div>
+                  </div>
+                  <span class="cursor-preview-caption" data-i18n="mockup_cursor_caption">İmleç Takip Widget'ı (Son 5 saniyede nazikçe ekranda belirir)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EYE HEALTH SCIENCE SECTION -->
+    <section class="section science-section" id="science">
+      <div class="container">
+        <div class="section-badge" data-i18n="science_badge">BİLİMSEL TEMELLER</div>
+        <h2 class="section-title" data-i18n="science_title">Neden Ekran Başında Gözlerimiz Yorulur?</h2>
+        <p class="section-desc" data-i18n="science_desc">
+          Modern insan gününün ortalama 8 ila 11 saatini dijital ekranlara odaklanarak geçiriyor. 
+          Göz kaslarımız doğası gereği 60 cm mesafeye saatlerce kilitlenmek üzere tasarlanmadı.
+        </p>
+
+        <div class="grid-3-cards">
+          <!-- Card 1: 20-20-20 Rule -->
+          <div class="glass-card stat-card">
+            <div class="card-icon-sphere orange">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="stat-number">20-20-20</div>
+            <h3 class="card-title" data-i18n="science_c1_title">Altın Kural</h3>
+            <p class="card-text" data-i18n-html="science_c1_text">
+              Amerikan Oftalmoloji Akademisi (AAO) onaylı: <strong>Her 20 dakikada bir</strong>, <strong>20 saniye</strong> boyunca en az <strong>20 fit (6 metre)</strong> uzağa bakmak, gözün silier odak kaslarını tamamen gevşetir ve spazmı önler.
+            </p>
+          </div>
+
+          <!-- Card 2: Blink Rate Drop -->
+          <div class="glass-card stat-card">
+            <div class="card-icon-sphere magenta">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="stat-number">-%66</div>
+            <h3 class="card-title" data-i18n="science_c2_title">Göz Kırpma Kaybı</h3>
+            <p class="card-text" data-i18n-html="science_c2_text">
+              Normalde dakikada 15-20 kez göz kırparız. Ekrana kilitlendiğimizde bu sayı <strong>5-7'ye düşer</strong>. 
+              EyePause nazik görsel ve sesli sinyallerle göz yaşı tabakanızı taze tutmanızı sağlar.
+            </p>
+          </div>
+
+          <!-- Card 3: Posture Alignment -->
+          <div class="glass-card stat-card">
+            <div class="card-icon-sphere teal">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            </div>
+            <div class="stat-number">3D Duruş</div>
+            <h3 class="card-title" data-i18n="science_c3_title">Omurga & Nefes Dengesi</h3>
+            <p class="card-text" data-i18n-html="science_c3_text">
+              Öne eğik boyun ("Tech Neck"), omurgaya 27 kilograma kadar fazladan yük bindirir. 
+              EyePause molaları sadece gözünüzü değil, omuz ve sırtınızı esnetmeniz için kusursuz bir ritim sunar.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT MAKES EYEPAUSE DIFFERENT (INTELLIGENCE & EASE) -->
+    <section class="section features-section" id="smart-pause">
+      <div class="container">
+        <div class="section-badge" data-i18n="features_badge">AKILLI VE SAYGILI TASARIM</div>
+        <h2 class="section-title" data-i18n="features_title">İşinizi Asla Bölmeyen Tek Mola Asistanı</h2>
+        <p class="section-desc" data-i18n-html="features_desc">
+          Geleneksel zamanlayıcılar can sıkıcıdır çünkü ne yaptığınızı bilmezler. Tam kod derlerken veya bir müşteriyle konuşurken ekrana fırlayan kaba pencerelerden nefret ettiğimiz için <strong>EyePause</strong>'u geliştirdik.
+        </p>
+
+        <div class="features-mosaic">
+          <!-- Feature 1: Meeting Detection -->
+          <div class="glass-card feature-tile feature-large">
+            <div class="tile-header">
+              <div class="tile-badge purple">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                <span data-i18n="feat_m1_badge">CoreAudio Donanım Sensörü</span>
+              </div>
+              <h3 class="tile-title" data-i18n="feat_m1_title">Toplantıda mısınız? Saygıyla bekler.</h3>
+              <p class="tile-text" data-i18n="feat_m1_text">
+                Zoom, Google Meet, Microsoft Teams, Slack Huddles veya FaceTime görüşmelerinizde mikrofon akışını donanım seviyesinde algılar. 
+                Siz konuşurken veya önemli bir sunum dinlerken asla mola uyarısı vermez; görüşme bittikten 1 dakika sonra sessizce devam eder.
+              </p>
+            </div>
+            <div class="tile-visual">
+              <div class="detector-pill-ui">
+                <div class="detector-row">
+                  <span class="d-icon">🎙️</span>
+                  <div class="d-info">
+                    <span class="d-name" data-i18n="feat_m1_mic_name">MacBook Pro Mikrofonu</span>
+                    <span class="d-status" data-i18n="feat_m1_mic_status">Toplantı Algılandı • Duraklatıldı</span>
+                  </div>
+                  <span class="d-badge active" data-i18n="feat_m1_mic_badge">Akıllı Bekleme</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 2: Browser Video Watch Detection -->
+          <div class="glass-card feature-tile feature-large">
+            <div class="tile-header">
+              <div class="tile-badge pink">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+                <span data-i18n="feat_m2_badge">IOKit Video Uyku Kilidi Algılama</span>
+              </div>
+              <h3 class="tile-title" data-i18n="feat_m2_title">YouTube veya Drive izlerken masada olduğunuzu bilir.</h3>
+              <p class="tile-text" data-i18n="feat_m2_text">
+                Chrome veya Safari'de klavye ve fareye dokunmadan 15 dakika boyunca bir eğitim videosu izlediğinizde, sıradan uygulamalar sizi "masadan kalktı" sanır. 
+                EyePause sistemin video oynatma sinyalini (Video Wake Lock) anlar; sürenizi sıfırlamaz ve gözleriniz için doğru anda molanızı verir.
+              </p>
+            </div>
+            <div class="tile-visual">
+              <div class="detector-pill-ui">
+                <div class="detector-row">
+                  <span class="d-icon">▶️</span>
+                  <div class="d-info">
+                    <span class="d-name" data-i18n="feat_m2_video_name">Google Chrome • YouTube</span>
+                    <span class="d-status" data-i18n="feat_m2_video_status">Video İzleniyor • Ekran Süresi Aktif</span>
+                  </div>
+                  <span class="d-badge success" data-i18n="feat_m2_video_badge">Göz Koruması Açık</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 3: Flow Guard (Typing & Dragging) -->
+          <div class="glass-card feature-tile">
+            <div class="tile-badge orange">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"/></svg>
+              <span data-i18n="feat_3_badge">Flow Guard</span>
+            </div>
+            <h3 class="tile-title" data-i18n="feat_3_title">Cümleniz Bitene Kadar Sabırla Bekler</h3>
+            <p class="tile-text" data-i18n="feat_3_text">
+              Tam kritik bir e-posta yazarken veya Figma'da bir bileşeni taşırken mola saati geldiyse, yazma etkinliğiniz bittiği ana kadar geri sayımı dondurur. Akışınız asla bozulmaz.
+            </p>
+          </div>
+
+          <!-- Feature 4: Tibetan Zen Bowls Audio -->
+          <div class="glass-card feature-tile">
+            <div class="tile-badge yellow">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              <span data-i18n="feat_4_badge">528 Hz Ses Motoru</span>
+            </div>
+            <h3 class="tile-title" data-i18n="feat_4_title">Rahatsız Edici Alarmlar Yok</h3>
+            <p class="tile-text" data-i18n="feat_4_text">
+              Harici dosyalara ihtiyaç duymadan gerçek zamanlı matematiksel sinüs dalgalarıyla üretilen 528 Hz Tibet çanağı tınıları. Zihninizi germez, huzurla uzağa bakmanızı sağlar.
+            </p>
+          </div>
+
+          <!-- Feature 5: Native App Picker -->
+          <div class="glass-card feature-tile">
+            <div class="tile-badge blue">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+              <span data-i18n="feat_5_badge">Native Mac Uygulama Seçici</span>
+            </div>
+            <h3 class="tile-title" data-i18n="feat_5_title">Elle Yazma Yok, Tıkla ve Seç</h3>
+            <p class="tile-text" data-i18n="feat_5_text">
+              Dikte (Wispr Flow vb.), derin odak (Xcode, Photoshop) veya hariç tutulacak uygulamaları (Spotify vb.) Mac'inizdeki yüklü uygulamalardan gerçek ikonlarıyla anında seçin.
+            </p>
+          </div>
+
+          <!-- Feature 6: Privacy First -->
+          <div class="glass-card feature-tile">
+            <div class="tile-badge green">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span data-i18n="feat_6_badge">%100 Gizlilik Odaklı</span>
+            </div>
+            <h3 class="tile-title" data-i18n="feat_6_title">Sıfır Kamera, Sıfır Bulut</h3>
+            <p class="tile-text" data-i18n="feat_6_text">
+              Web kameranızı açmaz, mikrofon seslerinizi kaydetmez veya dinlemez; yalnızca donanım seviyesinde kullanım durumunu sorgular. Tüm verileriniz yalnızca Mac'inizde saklanır.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE BREAK SIMULATOR -->
+    <section class="section demo-section" id="demo">
+      <div class="container">
+        <div class="interactive-banner glass-card">
+          <div class="banner-text">
+            <span class="live-pill" data-i18n="demo_badge">CANLI DENEYİM</span>
+            <h2 class="banner-title" data-i18n="demo_title">EyePause Mola Ekranını Şimdi Test Edin</h2>
+            <p class="banner-desc" data-i18n-html="demo_desc">
+              Aşağıdaki butona tıkladığınızda EyePause'un imza <strong>koyu buzlu cam katmanı</strong>, nefes halkası ve 528 Hz akustik çanı sayfada canlanacak. 5 saniye boyunca gözlerinizi ekrandan kaldırıp rahatlayın.
+            </p>
+          </div>
+          <div class="banner-action">
+            <button type="button" class="btn btn-giant-glow" onclick="triggerBreakDemo()">
+              <span class="glow-icon">👁️</span>
+              <span class="glow-text" data-i18n="demo_btn">5 Saniyelik Molayı Başlat</span>
+            </button>
+            <span class="demo-hint" data-i18n="demo_hint">İstediğiniz an ESC veya X tuşuyla kapatabilirsiniz</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRESET MODES INTERACTIVE SHOWCASE -->
+    <section class="section presets-section" id="features">
+      <div class="container">
+        <div class="section-badge" data-i18n="presets_badge">ÇALIŞMA ŞEKLİNİZE UYARLANIR</div>
+        <h2 class="section-title" data-i18n="presets_title">Her İş Rutinine Uygun Hazır Modlar</h2>
+        <p class="section-desc" data-i18n="presets_desc">
+          İster aralıksız kod yazan bir mühendis, ister tasarımcı, ister yoğun toplantı trafiğindeki bir yönetici olun; EyePause size uyum sağlar.
+        </p>
+
+        <!-- Mode Tabs -->
+        <div class="preset-selector-tabs" role="tablist" aria-label="Hazır Çalışma Modları">
+          <button type="button" class="preset-tab active" role="tab" aria-selected="true" onclick="selectPreset('balanced')" data-i18n="tab_balanced">
+            ⚖️ Balanced (Dengeli)
+          </button>
+          <button type="button" class="preset-tab" role="tab" aria-selected="false" onclick="selectPreset('deepFocus')" data-i18n="tab_deepFocus">
+            🎯 Deep Focus (Derin Odak)
+          </button>
+          <button type="button" class="preset-tab" role="tab" aria-selected="false" onclick="selectPreset('eyeCare')" data-i18n="tab_eyeCare">
+            🌿 Eye Care (Maksimum Göz)
+          </button>
+          <button type="button" class="preset-tab" role="tab" aria-selected="false" onclick="selectPreset('wellness')" data-i18n="tab_wellness">
+            🧘 Wellness (Bütünsel)
+          </button>
+        </div>
+
+        <div class="glass-card preset-display-card" id="presetCard">
+          <div class="preset-details">
+            <h3 class="preset-name" id="presetName">Balanced Mod</h3>
+            <p class="preset-description" id="presetDesc">
+              Klasik 20-20-20 kuralı standardı. Günlük ofis ve serbest çalışma temposu için en ideal ve sürdürülebilir ritim.
+            </p>
+            <div class="preset-specs-grid">
+              <div class="spec-box">
+                <span class="spec-label" data-i18n="spec_label_work">Çalışma Aralığı</span>
+                <span class="spec-val" id="presetWork">20 Dakika</span>
+              </div>
+              <div class="spec-box">
+                <span class="spec-label" data-i18n="spec_label_short">Kısa Göz Molası</span>
+                <span class="spec-val highlight" id="presetShort">20 Saniye</span>
+              </div>
+              <div class="spec-box">
+                <span class="spec-label" data-i18n="spec_label_long">Uzun Mola</span>
+                <span class="spec-val" id="presetLong">İsteğe Bağlı</span>
+              </div>
+              <div class="spec-box">
+                <span class="spec-label" data-i18n="spec_label_target">Önerilen Kullanım</span>
+                <span class="spec-val" id="presetTarget">Genel Günlük Çalışma</span>
+              </div>
+            </div>
+          </div>
+          <div class="preset-preview-visual">
+            <div class="rhythm-bar-chart">
+              <div class="rhythm-segment work" style="flex: 20;"><span>20m Odak</span></div>
+              <div class="rhythm-segment break" style="flex: 1;"><span>20s</span></div>
+              <div class="rhythm-segment work" style="flex: 20;"><span>20m Odak</span></div>
+              <div class="rhythm-segment break" style="flex: 1;"><span>20s</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE SCREEN STRAIN CALCULATOR -->
+    <section class="section calculator-section" id="calculator">
+      <div class="container">
+        <div class="section-badge" data-i18n="calc_badge">GÖZ YORGUNLUĞU HESAPLAYICI</div>
+        <h2 class="section-title" data-i18n="calc_title">Gününüzün Ne Kadarı Ekran Işığında Geçiyor?</h2>
+        <p class="section-desc" data-i18n="calc_desc">
+          Günlük çalışma sürenizi seçin; EyePause'un gözlerinizi kaç bin gereksiz spazmdan ve gözyaşı kuruluğundan koruduğunu hesaplayalım.
+        </p>
+
+        <div class="glass-card calculator-card">
+          <div class="calc-slider-group">
+            <div class="slider-header">
+              <label for="hoursSlider" data-i18n="calc_slider_label">Günlük Ekran Süreniz:</label>
+              <span class="slider-value-display"><strong id="calcHoursDisplay">8</strong> <span data-i18n="calc_slider_unit">saat / gün</span></span>
+            </div>
+            <input type="range" id="hoursSlider" min="2" max="16" value="8" step="1" oninput="updateCalculator(this.value)">
+            <div class="slider-ticks" aria-hidden="true">
+              <span data-i18n="calc_tick_2">2 saat</span>
+              <span data-i18n="calc_tick_6">6 saat</span>
+              <span data-i18n="calc_tick_10">10 saat</span>
+              <span data-i18n="calc_tick_14">14 saat+</span>
+            </div>
+          </div>
+
+          <div class="calc-results-grid">
+            <div class="calc-metric-box">
+              <span class="metric-icon">👁️</span>
+              <span class="metric-value" id="calcBlinkLoss">~4.800</span>
+              <span class="metric-label" data-i18n="calc_m1_label">Eksik Kalan Göz Kırpma / Gün</span>
+              <span class="metric-sub" data-i18n="calc_m1_sub">Ekrana bakarken kuruyan gözyaşı tabakası</span>
+            </div>
+
+            <div class="calc-metric-box">
+              <span class="metric-icon">⏳</span>
+              <span class="metric-value" id="calcBreaksWon">24 Mola</span>
+              <span class="metric-label" data-i18n="calc_m2_label">EyePause İle Kazanılan Mikro Dinlenme</span>
+              <span class="metric-sub" data-i18n="calc_m2_sub">Göz kaslarını gevşeten 20 saniyelik molalar</span>
+            </div>
+
+            <div class="calc-metric-box">
+              <span class="metric-icon">🏆</span>
+              <span class="metric-value score" id="calcScoreEst">96 / 100</span>
+              <span class="metric-label" data-i18n="calc_m3_label">Hedeflenen Screen Score</span>
+              <span class="metric-sub" data-i18n="calc_m3_sub">Gün sonu baş ağrısı ve göz kızarıklığı riski sıfıra iner</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARISON TABLE -->
+    <section class="section comparison-section">
+      <div class="container">
+        <div class="section-badge" data-i18n="comp_badge">FARK YARATAN DETAYLAR</div>
+        <h2 class="section-title" data-i18n="comp_title">Neden Sıradan Bir Mola Uygulaması Değil?</h2>
+
+        <div class="table-responsive glass-card">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th scope="col" data-i18n="comp_th_feature">Özellik & Yetenek</th>
+                <th scope="col" class="col-highlight" data-i18n="comp_th_eyepause">EyePause (macOS)</th>
+                <th scope="col" data-i18n="comp_th_traditional">Geleneksel Mola Uygulamaları</th>
+                <th scope="col" data-i18n="comp_th_pomodoro">Basit Pomodoro / Alarmlar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong data-i18n="comp_r1_f">Toplantı Algılama (CoreAudio)</strong></td>
+                <td class="col-highlight"><span class="badge-yes" data-i18n="comp_r1_ep">✅ Otomatik Askıya Alır</span></td>
+                <td><span class="badge-no" data-i18n="comp_r1_tr">❌ Aramanızı böler</span></td>
+                <td><span class="badge-no" data-i18n="comp_r1_po">❌ Farkında değildir</span></td>
+              </tr>
+              <tr>
+                <td><strong data-i18n="comp_r2_f">Video İzlerken Akıllı Süreç</strong></td>
+                <td class="col-highlight"><span class="badge-yes" data-i18n="comp_r2_ep">✅ Masadasınız kabul eder</span></td>
+                <td><span class="badge-no" data-i18n="comp_r2_tr">❌ "Boşta" sanıp durur</span></td>
+                <td><span class="badge-no" data-i18n="comp_r2_po">❌ Farkında değildir</span></td>
+              </tr>
+              <tr>
+                <td><strong data-i18n="comp_r3_f">Yazma & Sürükleme Koruması</strong></td>
+                <td class="col-highlight"><span class="badge-yes" data-i18n="comp_r3_ep">✅ Cümleniz bitene kadar bekler</span></td>
+                <td><span class="badge-no" data-i18n="comp_r3_tr">❌ Ekranı küt diye kilitler</span></td>
+                <td><span class="badge-no" data-i18n="comp_r3_po">❌ Yok</span></td>
+              </tr>
+              <tr>
+                <td><strong data-i18n="comp_r4_f">İmleç Takip Eden Hap Sayacı</strong></td>
+                <td class="col-highlight"><span class="badge-yes" data-i18n="comp_r4_ep">✅ Var (5 sn önce belirir)</span></td>
+                <td><span class="badge-no" data-i18n="comp_r4_tr">❌ Yok</span></td>
+                <td><span class="badge-no" data-i18n="comp_r4_po">❌ Yok</span></td>
+              </tr>
+              <tr>
+                <td><strong data-i18n="comp_r5_f">Sistem Kaynağı ve Pil Tüketimi</strong></td>
+                <td class="col-highlight"><span class="badge-yes" data-i18n="comp_r5_ep">✅ Saf Native Swift (&lt;30 MB RAM)</span></td>
+                <td><span class="badge-warn" data-i18n="comp_r5_tr">⚠️ Ağır Electron (~500 MB RAM)</span></td>
+                <td><span class="badge-no" data-i18n="comp_r5_po">Değişken</span></td>
+              </tr>
+              <tr>
+                <td><strong data-i18n="comp_r6_f">Ses Tasarımı</strong></td>
+                <td class="col-highlight"><span class="badge-yes" data-i18n="comp_r6_ep">✅ 528 Hz Sentezlenmiş Tibet Çanı</span></td>
+                <td><span class="badge-no" data-i18n="comp_r6_tr">❌ İrkilten Dijital Bip</span></td>
+                <td><span class="badge-no" data-i18n="comp_r6_po">❌ Standart Çalar Saat</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="section faq-section" id="faq">
+      <div class="container">
+        <div class="section-badge" data-i18n="faq_badge">MERAK EDİLENLER</div>
+        <h2 class="section-title" data-i18n="faq_title">Sıkça Sorulan Sorular</h2>
+
+        <div class="faq-accordion">
+          <details class="faq-item glass-card" open>
+            <summary class="faq-question">
+              <span data-i18n="faq_q1">EyePause neden indirmeye şu anda açık değil? Ne zaman çıkacak?</span>
+              <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p data-i18n="faq_a1">
+                EyePause şu anda özel beta test aşamasında ve Mac App Store onay sürecine hazırlanıyor. 
+                Erken erişim listesine e-postanızı bıraktığınızda, ilk v1.0 sürümü yayınlandığı gün size özel bir davet bağlantısı ve erken erişim avantajları gönderilecektir.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item glass-card">
+            <summary class="faq-question">
+              <span data-i18n="faq_q2">EyePause mikrofonumu veya kameramı dinliyor mu? Gizliliğim güvende mi?</span>
+              <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p data-i18n-html="faq_a2">
+                <strong>Kesinlikle hayır.</strong> EyePause kamera erişimi bile istemez. Mikrofon tarafında ise CoreAudio API'si aracılığıyla yalnızca <em>"Şu anda herhangi bir girdi aygıtından ses kanalı akışı var mı?"</em> şeklinde donanımsal bir evet/hayır sinyali sorgular. Ses verileriniz asla kaydedilmez, çözülmez veya herhangi bir sunucuya gönderilmez. %100 Mac'inizde yerel olarak çalışır.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item glass-card">
+            <summary class="faq-question">
+              <span data-i18n="faq_q3">Çoklu monitör (birden fazla ekran) kullanıyorum, nasıl çalışır?</span>
+              <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p data-i18n="faq_a3">
+                EyePause çoklu monitör sistemleri için özel olarak optimize edilmiştir. Mola vakti geldiğinde Mac'inize bağlı tüm harici monitörler eşzamanlı olarak dinlendirici koyu cam katmanıyla kaplanır, böylece gözünüzü diğer ekrana kaçırarak yormaya devam etmezsiniz.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item glass-card">
+            <summary class="faq-question">
+              <span data-i18n="faq_q4">Mac'imin pilini tüketir mi?</span>
+              <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p data-i18n="faq_a4">
+                Hayır. EyePause, modern Swift ve AppKit mimarisiyle sıfırdan macOS için derlenmiştir. Electron veya web sarmalayıcıları gibi arka planda gizli Chromium çalıştırmaz. Boşta çalışma CPU kullanımı %0.1'in altındadır ve pil ömrünüzü asla fark edilmeyecek seviyede tutar.
+              </p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA / WAITLIST -->
+    <section class="section final-cta-section">
+      <div class="container">
+        <div class="final-cta-card glass-card">
+          <div class="cta-badge" data-i18n="cta_badge">GÖZLERİNİZE BİR İYİLİK YAPIN</div>
+          <h2 class="final-cta-title" data-i18n="cta_title">Günün Sonunda Gözlerinizi Yorgun Hissetmeyi Bırakın.</h2>
+          <p class="final-cta-desc" data-i18n="cta_desc">
+            EyePause çok yakında macOS kullanıcılarıyla buluşuyor. İlk sürüm yayınlandığında bildirim almak ve sınırlı erken erişim topluluğuna katılmak için e-postanızı kaydedin.
+          </p>
+
+          <form class="waitlist-form large" id="finalWaitlistForm" onsubmit="handleWaitlistSubmit(event, 'final')">
+            <div class="input-wrapper">
+              <svg class="mail-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <input type="email" id="finalEmail" placeholder="E-posta adresinizi buraya yazın..." data-i18n-placeholder="cta_placeholder" required aria-label="E-posta adresi">
+            </div>
+            <button type="submit" class="btn btn-hero-submit">
+              <span data-i18n="cta_btn">Erken Erişime Katıl</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+          <div class="form-feedback" id="finalFeedback" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-icon-sm">👁️</span>
+          <span class="footer-name">EyePause</span>
+        </div>
+        <p class="footer-tagline" data-i18n="footer_tagline">Gözlerinizi dinlendirin, odaklanmanızı koruyun. macOS için özenle tasarlandı.</p>
+        <p class="footer-contact-line">
+          <span data-i18n="footer_contact_prefix">İletişim & Kurumsal:</span> 
+          <a href="mailto:info@eyepause.site" class="footer-mail">info@eyepause.site</a>
+        </p>
+        <span class="footer-domain-note" data-i18n="footer_domain_note">Resmi Web Sitesi: eyepause.site • © 2026 EyePause. Tüm hakları saklıdır.</span>
+      </div>
+
+      <div class="footer-nav">
+        <div class="footer-col">
+          <span class="col-title" data-i18n="footer_col_nav">Navigasyon</span>
+          <a href="#features" data-i18n="nav_features">Özellikler</a>
+          <a href="#science" data-i18n="footer_link_rule">20-20-20 Kuralı</a>
+          <a href="#smart-pause" data-i18n="nav_smart_pause">Akıllı Duraklatma</a>
+          <a href="#calculator" data-i18n="nav_calculator">Yorgunluk Testi</a>
+        </div>
+
+        <div class="footer-col">
+          <span class="col-title" data-i18n="footer_col_compat">Uyumluluk</span>
+          <span>macOS Sonoma (14.0+)</span>
+          <span>macOS Sequoia (15.0+)</span>
+          <span>Apple Silicon (M1–M4)</span>
+          <span>Intel Tabanlı Mac'ler</span>
+        </div>
+
+        <div class="footer-col">
+          <span class="col-title" data-i18n="footer_col_legal">Yasal & Güvenlik</span>
+          <a href="javascript:void(0)" onclick="openLegalModal('privacy')" data-i18n="footer_privacy">Gizlilik Politikası</a>
+          <a href="javascript:void(0)" onclick="openLegalModal('terms')" data-i18n="footer_terms">Kullanım Koşulları</a>
+          <a href="mailto:info@eyepause.site" class="footer-mail" data-i18n="footer_contact_link">Destek & Geri Bildirim</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FULLSCREEN BREAK DEMO OVERLAY MODAL -->
+  <div class="break-overlay-demo" id="breakOverlayDemo" aria-hidden="true">
+    <div class="overlay-glass-backdrop" onclick="closeBreakDemo()"></div>
+    <div class="overlay-modal-content">
+      <button type="button" class="btn-close-overlay" onclick="closeBreakDemo()" aria-label="Molayı Kapat">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+
+      <div class="breathing-circle-wrapper">
+        <div class="breathing-halo"></div>
+        <div class="breathing-circle">
+          <span class="countdown-seconds" id="demoOverlaySeconds">5</span>
+        </div>
+      </div>
+
+      <h2 class="overlay-headline" id="demoOverlayTitle" data-i18n="demo_overlay_title">Uzağa Bakın (6 Metre)</h2>
+      <p class="overlay-instruction" id="demoOverlaySub" data-i18n="demo_overlay_sub">Derin bir nefes alın ve gözlerinizi pencereden dışarıya veya odanın en uzak köşesine odaklayın.</p>
+      
+      <div class="overlay-bottom-bar">
+        <span class="bell-status" data-i18n="demo_overlay_bell">🔔 528 Hz Tibet Çanı Çalıyor</span>
+        <button type="button" class="btn-overlay-skip" onclick="closeBreakDemo()" data-i18n="demo_overlay_skip">Molayı Şimdi Bitir (ESC)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIVACY POLICY MODAL -->
+  <div class="legal-modal" id="privacyModal" aria-hidden="true">
+    <div class="overlay-glass-backdrop" onclick="closeLegalModal('privacy')"></div>
+    <div class="legal-modal-content">
+      <button type="button" class="btn-close-overlay" onclick="closeLegalModal('privacy')" aria-label="Kapat">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <h2 id="privacyModalTitle" data-i18n="privacy_title">Gizlilik Politikası</h2>
+      <div class="legal-date" id="privacyModalDate" data-i18n="legal_last_updated">Son Güncelleme: 11 Ekim 2026 • EyePause (eyepause.site)</div>
+      <div class="legal-body" id="privacyModalBody">
+        <!-- Injected via JS based on active language -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMS OF SERVICE MODAL -->
+  <div class="legal-modal" id="termsModal" aria-hidden="true">
+    <div class="overlay-glass-backdrop" onclick="closeLegalModal('terms')"></div>
+    <div class="legal-modal-content">
+      <button type="button" class="btn-close-overlay" onclick="closeLegalModal('terms')" aria-label="Kapat">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <h2 id="termsModalTitle" data-i18n="terms_title">Kullanım Koşulları</h2>
+      <div class="legal-date" id="termsModalDate" data-i18n="legal_last_updated">Son Güncelleme: 11 Ekim 2026 • EyePause (eyepause.site)</div>
+      <div class="legal-body" id="termsModalBody">
+        <!-- Injected via JS based on active language -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>
